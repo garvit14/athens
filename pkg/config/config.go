@@ -148,7 +148,7 @@ func defaultConfig() *Config {
 		GoBinary:         "go",
 		GoBinaryEnvVars:  EnvList{"GOPROXY=direct"},
 		GoEnv:            "development",
-		GoGetWorkers:     10,
+		GoGetWorkers:     9000,
 		ProtocolWorkers:  1,
 		LogLevel:         "warn",
 		LogFormat:        "plain",
