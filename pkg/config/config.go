@@ -150,7 +150,7 @@ func defaultConfig() *Config {
 		GoEnv:            "development",
 		GoGetWorkers:     10,
 		ProtocolWorkers:  30,
-		LogLevel:         "debug",
+		LogLevel:         "warn",
 		LogFormat:        "plain",
 		CloudRuntime:     "none",
 		EnablePprof:      false,

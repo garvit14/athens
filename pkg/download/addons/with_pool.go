@@ -2,6 +2,7 @@ package addons
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/gomods/athens/pkg/download"
 	"github.com/gomods/athens/pkg/errors"
@@ -25,6 +26,7 @@ type withpool struct {
 // and creates a N worker pool that share all the download.Protocol
 // methods.
 func WithPool(workers int) download.Wrapper {
+	fmt.Println("WithPool", workers)
 	return func(dp download.Protocol) download.Protocol {
 		jobCh := make(chan func())
 		p := &withpool{dp: dp, jobCh: jobCh}
@@ -52,6 +54,7 @@ func (p *withpool) List(ctx context.Context, mod string) ([]string, error) {
 	var err error
 	done := make(chan struct{}, 1)
 	p.jobCh <- func() {
+		fmt.Println("List", mod)
 		vers, err = p.dp.List(ctx, mod)
 		close(done)
 	}
@@ -69,6 +72,7 @@ func (p *withpool) Info(ctx context.Context, mod, ver string) ([]byte, error) {
 	var err error
 	done := make(chan struct{}, 1)
 	p.jobCh <- func() {
+		fmt.Println("Info", mod, ver)
 		info, err = p.dp.Info(ctx, mod, ver)
 		close(done)
 	}
@@ -85,6 +89,7 @@ func (p *withpool) Latest(ctx context.Context, mod string) (*storage.RevInfo, er
 	var err error
 	done := make(chan struct{}, 1)
 	p.jobCh <- func() {
+		fmt.Println("Latest", mod)
 		info, err = p.dp.Latest(ctx, mod)
 		close(done)
 	}
@@ -101,6 +106,7 @@ func (p *withpool) GoMod(ctx context.Context, mod, ver string) ([]byte, error) {
 	var err error
 	done := make(chan struct{}, 1)
 	p.jobCh <- func() {
+		fmt.Println("GoMod", mod, ver)
 		goMod, err = p.dp.GoMod(ctx, mod, ver)
 		close(done)
 	}
@@ -117,6 +123,7 @@ func (p *withpool) Zip(ctx context.Context, mod, ver string) (storage.SizeReadCl
 	var err error
 	done := make(chan struct{}, 1)
 	p.jobCh <- func() {
+		fmt.Println("Zip", mod, ver)
 		zip, err = p.dp.Zip(ctx, mod, ver)
 		close(done)
 	}
