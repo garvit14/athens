@@ -3,6 +3,7 @@ package s3
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -34,6 +35,12 @@ type Storage struct {
 // New creates a new AWS S3 CDN saver.
 func New(s3Conf *config.S3Config, timeout time.Duration, options ...func(*aws.Config)) (*Storage, error) {
 	const op errors.Op = "s3.New"
+
+	// Set AWS_SDK_LOAD_CONFIG=true to use ~/.aws/config.
+	err := os.Setenv("AWS_SDK_LOAD_CONFIG", "true")
+	if err != nil {
+		return nil, err
+	}
 
 	awsConfig, err := awscfg.LoadDefaultConfig(context.TODO(), awscfg.WithRegion(s3Conf.Region))
 	if err != nil {
