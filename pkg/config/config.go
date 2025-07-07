@@ -158,7 +158,14 @@ func defaultConfig() *Config {
 		StatsExporter:    "prometheus",
 		TimeoutConf:      TimeoutConf{Timeout: 300},
 		HomeTemplatePath: "/var/lib/athens/home.html",
-		StorageType:      "memory",
+		StorageType:      "s3",
+		Storage: &Storage{
+			S3: &S3Config{
+				Bucket:                  "nirvana-athens-storage",
+				Region:                  "us-east-2",
+				UseDefaultConfiguration: true,
+			},
+		},
 		Port:             ":3000",
 		SingleFlightType: "memory",
 		GlobalEndpoint:   "http://localhost:3001",
