@@ -2,6 +2,7 @@ package addons
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/gomods/athens/pkg/download"
 	"github.com/gomods/athens/pkg/errors"
@@ -25,6 +26,7 @@ type withpool struct {
 // and creates a N worker pool that share all the download.Protocol
 // methods.
 func WithPool(workers int) download.Wrapper {
+	fmt.Println("WithPool", workers)
 	return func(dp download.Protocol) download.Protocol {
 		jobCh := make(chan func())
 		p := &withpool{dp: dp, jobCh: jobCh}

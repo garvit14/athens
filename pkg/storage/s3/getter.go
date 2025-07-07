@@ -88,7 +88,7 @@ func (s *Storage) open(ctx context.Context, path string) (storage.SizeReadCloser
 		Key:    aws.String(path),
 	}
 
-	fmt.Println("Get Object", getParams.Key)
+	fmt.Println("Get Object", *getParams.Key)
 	goo, err := s.s3API.GetObject(ctx, getParams)
 	if err != nil {
 		var nsk *types.NoSuchKey
